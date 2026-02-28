@@ -4,4 +4,9 @@
   font-family: "Hanken Grotesk", sans-serif;
   line-height: 1.5;
   font-weight: 400;
+}
 
+body {
+    margin: 0;
+    background-color: #F1F7F8
+}

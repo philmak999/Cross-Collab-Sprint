@@ -5,7 +5,13 @@
   overflow: hidden;
   text-align: left;
   width: 554px;
+  transition: width 0.4s ease;
 
+  &--full {
+    width: 100%;
+  }
+  box-shadow: 4px 16px 16px 0 rgba(44, 44, 44, 0.1);
+  
   &__header {
     display: flex;
     align-items: center;
@@ -33,6 +39,12 @@
     gap: 24px;
     padding: 0 24px 24px;
     color: #2C2C2C;
+  }
+
+  &__top-row {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
   }
 
   &__info {
@@ -145,5 +157,14 @@
       color: #BEBEBE;
       cursor: not-allowed;
     }
+  }
+
+  &--full &__top-row {
+    flex-direction: row;
+  }
+
+  &--full &__info,
+  &--full &__section {
+    flex: 1;
   }
 }

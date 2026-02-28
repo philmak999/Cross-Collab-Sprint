@@ -2,9 +2,9 @@ import './HamburgerMenu.scss'
 import callIcon from '../../assets/icons/Call.svg'
 import settingsIcon from '../../assets/icons/Settings.svg'
 
-function HamburgerMenu() {
+function HamburgerMenu({ isOpen }) {
   return (
-    <aside className="hamburger-menu">
+    <aside className={`hamburger-menu${isOpen ? ' hamburger-menu--open' : ''}`}>
       <div className="hamburger-menu__top">
         <div className="hamburger-menu__header">
           <h2 className="hamburger-menu__title">New Case</h2>

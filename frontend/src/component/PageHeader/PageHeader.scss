@@ -1,32 +1,21 @@
 @use "../../styles/variables" as *;
 @use "../../styles/functions" as *;
-// @use "../../styles/mixin" as *;
 
 .header {
-  margin-top: 0;
-  margin-left: 0;
   width: 100%;
-  height: pxToRem(64);
   background-color: #1D6287;
-  border: 1px solid red;
   display: flex;
   flex-direction: row;
-
+  align-items: center;
+  justify-content: space-between;
+  height: var(--page-header-height, 80px);
+  box-sizing: border-box;
   .nav-logo {
-    //width: 13.29%;
-    margin-top: pxToRem(16);
-    margin-bottom: pxToRem(16);
-    margin-left: 3.17%;
-    border: 1px solid red;
-    // height: 30px;
     display: flex;
     flex-direction: row;
     gap: pxToRem(16);
-    .HamburgerIcon{
-        width: pxToRem(32);
-        height:pxToRem(32);
-        border: 1px solid red;
-    }
+    padding: 1.5rem 2rem;
+    align-items: center;
     p {
         font-family: "Hanken Grotesk", sans-serif;
         font-weight: 900;
@@ -36,10 +25,18 @@
         letter-spacing: 0.06em;
         text-align: center;
         color: white;
-        padding: 0;
-        margin: 0;
-        border: 1px solid red;
-       
+        margin: 0;     
     }
   }
+
+  .setting {
+    padding: 1.5rem 2rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.icon{
+    width: pxToRem(32);
+    height:pxToRem(32);
 }
