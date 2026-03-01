@@ -1,13 +1,13 @@
 .hamburger-menu {
   width: 306px;
   height: 100vh;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   padding: 72px 32px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: #2C2C2C;
+  color: #2c2c2c;
   position: fixed;
   top: var(--page-header-height, 80px);
   left: 0;
@@ -40,6 +40,15 @@
   &__icon {
     width: 31px;
     height: 31px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.7;
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
   }
 
   &__section {

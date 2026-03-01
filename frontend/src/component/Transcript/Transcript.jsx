@@ -7,7 +7,7 @@ const Transcript = ({ onClose }) => {
     <div className="transcript__modal">
       <div className="transcript">
         <div className="transcript__header">
-          <h2 className="transcript__title">Call Transcript</h2>
+          <h2 className="transcript__title">Call Transcript (AI-generated)</h2>
           <Button text="Close" onClick={onClose} variant="save" />
         </div>
 

@@ -1,14 +1,22 @@
-import './HamburgerMenu.scss'
-import callIcon from '../../assets/icons/Call.svg'
-import settingsIcon from '../../assets/icons/Settings.svg'
+import "./HamburgerMenu.scss";
+import callIcon from "../../assets/icons/Call.svg";
+import settingsIcon from "../../assets/icons/Settings.svg";
+import { useNavigate } from "react-router-dom"; // <-- Add this import
 
 function HamburgerMenu({ isOpen }) {
+  const navigate = useNavigate();
   return (
-    <aside className={`hamburger-menu${isOpen ? ' hamburger-menu--open' : ''}`}>
+    <aside className={`hamburger-menu${isOpen ? " hamburger-menu--open" : ""}`}>
       <div className="hamburger-menu__top">
         <div className="hamburger-menu__header">
           <h2 className="hamburger-menu__title">New Case</h2>
-          <img className="hamburger-menu__icon" src={callIcon} alt="" aria-hidden="true" />
+          <img
+            className="hamburger-menu__icon"
+            src={callIcon}
+            alt="phone icon"
+            aria-hidden="true"
+            onClick={() => navigate("/emergency")}
+          />
         </div>
 
         <div className="hamburger-menu__section">
@@ -23,10 +31,15 @@ function HamburgerMenu({ isOpen }) {
 
       <div className="hamburger-menu__bottom">
         <h3 className="hamburger-menu__settings">SETTINGS</h3>
-        <img className="hamburger-menu__icon" src={settingsIcon} alt="" aria-hidden="true" />
+        <img
+          className="hamburger-menu__icon"
+          src={settingsIcon}
+          alt="settings icon"
+          aria-hidden="true"
+        />
       </div>
     </aside>
-  )
+  );
 }
 
-export default HamburgerMenu
+export default HamburgerMenu;
