@@ -10,9 +10,15 @@
     display: flex;
     flex-direction: row;
     gap: pxToRem(16);
-      &.selected {
+    cursor: pointer;
+
+    &:hover {
+        background-color: #f2f2f2;
+    }
+
+    &.selected {
         border-width: 3px;
-        border-color: #1D6287; 
+        border-color: #1D6287;
     }
 
     .display-area {
@@ -83,6 +89,7 @@
             flex-direction: column;
             gap: pxToRem(12);
             align-items: flex-start;
+
             .hospital-score {
                 display: flex;
                 flex-direction: row;
@@ -113,6 +120,7 @@
                 }
 
             }
+
             .gps-info {
                 //border: 1px solid red;
                 display: flex;
@@ -136,9 +144,10 @@
                     word-break: none;
 
                 }
-                 .drive-time {
-                        color: #00A970;
-                    }
+
+                .drive-time {
+                    color: #00A970;
+                }
 
             }
 
@@ -151,20 +160,20 @@
                 border-top: 1px solid #9FCDE5;
                 border-left: none;
                 border-right: none;
-                border-bottom:none ;
-                margin-top:0;
+                border-bottom: none;
+                margin-top: 0;
                 align-items: center;
 
                 .check-icon_green {
                     width: pxToRem(16);
                     aspect-ratio: 1 / 1;
                     display: block;
-                    margin-top:pxToRem(13);
+                    margin-top: pxToRem(13);
                 }
 
                 p {
                     margin: 0;
-                    padding-top:  pxToRem(9);
+                    padding-top: pxToRem(9);
                     font-family: "Hanken Grotesk", sans-serif;
                     font-weight: 700;
                     font-style: normal;
@@ -187,16 +196,22 @@
 
 /* ===== AiRecommend = false ===== */
 .card.normal {
-   width: 96%;
+    width: 96%;
     border: 1px solid #1D6287;
     background-color: white;
     border-radius: pxToRem(16);
     display: flex;
     flex-direction: row;
     gap: pxToRem(16);
-          &.selected {
+    cursor: pointer;
+
+    &:hover {
+        background-color: #f2f2f2;
+    }
+
+    &.selected {
         border-width: 3px;
-        border-color: #1D6287; 
+        border-color: #1D6287;
     }
 
     .display-area {
@@ -230,6 +245,7 @@
             flex-direction: column;
             gap: pxToRem(12);
             align-items: flex-start;
+
             .hospital-score {
                 display: flex;
                 flex-direction: row;
@@ -260,6 +276,7 @@
                 }
 
             }
+
             .gps-info {
                 //border: 1px solid red;
                 display: flex;
@@ -283,9 +300,10 @@
                     word-break: none;
 
                 }
-                 .drive-time {
-                        color: #E17100;
-                    }
+
+                .drive-time {
+                    color: #E17100;
+                }
 
             }
 
@@ -298,20 +316,20 @@
                 border-top: 1px solid #9FCDE5;
                 border-left: none;
                 border-right: none;
-                border-bottom:none ;
-                margin-top:0;
+                border-bottom: none;
+                margin-top: 0;
                 align-items: center;
 
                 .alert-icon {
                     width: pxToRem(16);
                     aspect-ratio: 1 / 1;
                     display: block;
-                    margin-top:pxToRem(13);
+                    margin-top: pxToRem(13);
                 }
 
                 p {
                     margin: 0;
-                    padding-top:  pxToRem(9);
+                    padding-top: pxToRem(9);
                     font-family: "Hanken Grotesk", sans-serif;
                     font-weight: 500;
                     font-style: normal;

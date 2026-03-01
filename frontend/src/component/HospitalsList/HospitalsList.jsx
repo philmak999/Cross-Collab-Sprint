@@ -4,8 +4,9 @@ import Button from '../Button/Button.jsx';
 import EditIconTag from '../../assets/icons/Edit.svg';
 import UserIconTag from '../../assets/icons/User.svg';
 import HospitalCard from '../HospitalCard/HospitalCard.jsx';
-import CheckIconTag from '../../assets/icons/Check.svg';
-import MapIconTag from '../../assets/icons/Map.svg';
+import Map1 from '../../assets/maps/Map-1.jpg';
+import Map2 from '../../assets/maps/Map-2.jpg';
+import Map3 from '../../assets/maps/Map-3.jpg';
 import { useState } from "react";
 
 function HospitalsList() {
@@ -17,7 +18,7 @@ function HospitalsList() {
             DriveTime: "5",
             HospitalInfo: "Cardiac catheterization capability",
             AiRecommend: true,
-            Map: CheckIconTag
+            Map: Map1
         },
         {
             HospitalName: "Smith Hospital",
@@ -26,16 +27,16 @@ function HospitalsList() {
             DriveTime: "15",
             HospitalInfo: "Traffic near Jane and Finch",
             AiRecommend: false,
-            Map: MapIconTag
+            Map: Map2
         },
         {
-            HospitalName: "Smith Hospital",
-            Recommendscore: "15%",
-            HospitalNameDistance: "6",
-            DriveTime: "15",
-            HospitalInfo: "Traffic near Jane and Finch",
+            HospitalName: "YORK HOSPITAL",
+            Recommendscore: "10%",
+            HospitalNameDistance: "15",
+            DriveTime: "12",
+            HospitalInfo: "Research-oriented Hospital",
             AiRecommend: false,
-            Map: MapIconTag
+            Map: Map3
         }
     ]
 
@@ -69,7 +70,7 @@ function HospitalsList() {
                     ))}
 
                 </div>
-                <div className='map'>
+                <div className='map-display'>
                     {selectedIndex !== null && (
                         <img
                             src={hospitals[selectedIndex].Map}
