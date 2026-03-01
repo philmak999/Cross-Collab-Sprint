@@ -1,14 +1,14 @@
-import './MainPartContainer.scss'
-import CaseSummary from '../CaseSummary/CaseSummary';
+import "./MainPartContainer.scss";
+import CaseSummary from "../CaseSummary/CaseSummary";
 
-function MainPartContainer({ isMenuOpen }) {
+function MainPartContainer({ isMenuOpen, onEditClick }) {
   const containerClassName = isMenuOpen
-    ? 'main-part main-part--menu-open'
-    : 'main-part';
+    ? "main-part main-part--menu-open"
+    : "main-part";
 
   return (
     <div className={containerClassName}>
-      <CaseSummary isFullWidth={isMenuOpen} />
+      <CaseSummary isFullWidth={isMenuOpen} onEditClick={onEditClick} />
     </div>
   );
 }
