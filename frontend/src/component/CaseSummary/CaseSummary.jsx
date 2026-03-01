@@ -1,16 +1,16 @@
-import './CaseSummary.scss'
-import EditButton from '../EditButton/EditButton.jsx'
-import alertIcon from '../../assets/icons/Alert.svg'
+import "./CaseSummary.scss";
+import EditButton from "../EditButton/EditButton.jsx";
+import alertIcon from "../../assets/icons/Alert.svg";
 
-function CaseSummary({ isFullWidth = false }) {
+function CaseSummary({ isFullWidth = false, onEditClick }) {
   const caseSummaryClassName = isFullWidth
-    ? 'case-summary case-summary--full'
-    : 'case-summary';
+    ? "case-summary case-summary--full"
+    : "case-summary";
   return (
     <section className={caseSummaryClassName}>
       <header className="case-summary__header">
         <h2 className="case-summary__title">Case Summary</h2>
-        <EditButton />
+        <EditButton onClick={onEditClick} />
       </header>
       <div className="case-summary__divider" />
 
@@ -23,14 +23,20 @@ function CaseSummary({ isFullWidth = false }) {
             </div>
             <div className="case-summary__info-row">
               <span className="case-summary__info-label">Timestamp:</span>
-              <span className="case-summary__info-value">10:14:32 AM - 10:16:31 AM</span>
+              <span className="case-summary__info-value">
+                10:14:32 AM - 10:16:31 AM
+              </span>
             </div>
             <div className="case-summary__info-row">
               <span className="case-summary__info-label">Location:</span>
-              <span className="case-summary__info-value">1458 Dundas St W, Toronto, ON</span>
+              <span className="case-summary__info-value">
+                1458 Dundas St W, Toronto, ON
+              </span>
             </div>
             <div className="case-summary__info-row">
-              <span className="case-summary__info-label">Caller Relationship:</span>
+              <span className="case-summary__info-label">
+                Caller Relationship:
+              </span>
               <span className="case-summary__info-value">Spouse</span>
             </div>
           </section>
@@ -54,10 +60,17 @@ function CaseSummary({ isFullWidth = false }) {
 
         <section className="case-summary__critical">
           <div className="case-summary__critical-header">
-            <img className="case-summary__alert-icon" src={alertIcon} alt="" aria-hidden="true" />
+            <img
+              className="case-summary__alert-icon"
+              src={alertIcon}
+              alt=""
+              aria-hidden="true"
+            />
             <span>CRITICAL SYMPTOMS</span>
           </div>
-          <p className="case-summary__critical-lead">Severe chest pain with shortness of breath</p>
+          <p className="case-summary__critical-lead">
+            Severe chest pain with shortness of breath
+          </p>
           <ul className="case-summary__critical-list">
             <li>Chest pain began approximately 20 minutes ago</li>
             <li>Pain described as "crushing" and radiating to left arm</li>
@@ -71,13 +84,17 @@ function CaseSummary({ isFullWidth = false }) {
           <button className="case-summary__action" type="button">
             View 911 Transcript
           </button>
-          <button className="case-summary__action case-summary__action--disabled" type="button" disabled>
+          <button
+            className="case-summary__action case-summary__action--disabled"
+            type="button"
+            disabled
+          >
             EMS Intake Unavailable
           </button>
         </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default CaseSummary
+export default CaseSummary;
