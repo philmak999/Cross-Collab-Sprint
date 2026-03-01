@@ -31,6 +31,20 @@
     justify-content: space-between;
   }
 
+  &__button {
+    background: none;
+    border: none;
+    padding: 0;
+    text-align: left;
+    width: 100%;
+    cursor: pointer;
+    transition: color 0.25s ease;
+
+    &:hover {
+      color: #1D6287;
+    }
+  }
+
   &__title {
     margin: 0;
     font-size: 24px;
@@ -40,6 +54,10 @@
   &__icon {
     width: 31px;
     height: 31px;
+  }
+
+  &__bottom .hamburger-menu__icon {
+    cursor: pointer;
   }
 
   &__section {
@@ -57,6 +75,15 @@
     gap: 8px;
     font-size: 16px;
     font-weight: 400;
+
+    span {
+      cursor: pointer;
+      transition: color 0.25s ease;
+
+      &:hover {
+        color: #1D6287;
+      }
+    }
   }
 
   &__bottom {
@@ -70,5 +97,11 @@
     font-size: 24px;
     font-weight: 500;
     text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.25s ease;
+
+    &:hover {
+      color: #1D6287;
+    }
   }
 }

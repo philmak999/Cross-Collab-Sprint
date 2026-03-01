@@ -3,7 +3,7 @@ import EditButton from "../EditButton/EditButton.jsx";
 
 const HospitalRouting = () => {
   return (
-    <div class="hospital__container">
+    <div className="hospital__container">
       <h1 className="hospital__title">Hospital Routing</h1>
       <EditButton text="Add Another Hospital" />
     </div>

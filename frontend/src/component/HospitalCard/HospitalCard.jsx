@@ -40,11 +40,13 @@ function HospitalCard({
                                 <p>•</p>
                                 <p className="drive-time">{DriveTime} minutes</p>
                             </div>
-                            <div className='hospital-info'>
-                                <img src={CheckIconTag} alt="CheckLogo" className="check-icon_green" />
-                                <p>{HospitalInfo}</p>
+                            {HospitalInfo && (
+                                <div className='hospital-info'>
+                                    <img src={CheckIconTag} alt="CheckLogo" className="check-icon_green" />
+                                    <p>{HospitalInfo}</p>
 
-                            </div>
+                                </div>
+                            )}
 
                         </div>
 
@@ -63,11 +65,13 @@ function HospitalCard({
                                 <p>•</p>
                                 <p className="drive-time">{DriveTime} minutes</p>
                             </div>
-                            <div className='hospital-info'>
-                                <img src={AlertIconTag} alt="AlertLogo" className="alert-icon" />
-                                <p>{HospitalInfo}</p>
+                            {HospitalInfo && (
+                                <div className='hospital-info'>
+                                    <img src={AlertIconTag} alt="AlertLogo" className="alert-icon" />
+                                    <p>{HospitalInfo}</p>
 
-                            </div>
+                                </div>
+                            )}
 
                         </div>
                     </>

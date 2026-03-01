@@ -19,7 +19,7 @@ const EmergencyCall = ({ onEndCall }) => {
 
         <button
           className="emergency__btn emergency__btn--danger"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/case-summary-2")}
         >
           END & PROCESS CALL
           <img src={sendIcon} alt="" className="emergency__icon" />
