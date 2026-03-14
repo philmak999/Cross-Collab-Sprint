@@ -5,13 +5,13 @@ This project is a dispatcher workflow prototype for triaging emergency calls, se
 ## Key Features
 - Case summary display with critical symptoms and actions
 - Hospital routing panel with selectable hospital cards
-- Map preview tied to the selected hospital
+- Map preview tied to the selected hospital with fully supported incorportation of Google Maps API on deployment
 - Dispatch flow with follow-up pages
 - Hamburger menu navigation and responsive layout adjustments
 
 ## Project Structure
 - `frontend/` - React + Vite client application
-- `backend/` - Express server and database import scripts
+- `backend/` - Express server and MySQL database
 
 ## Database Import (MySQL)
-The backend includes a simple importer for `.mysql`/`.sql` files.
+The backend includes a an importer-ready code constructed for `.mysql`/`.sql` files.
