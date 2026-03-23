@@ -1,4 +1,4 @@
-# Cross-Collab Sprint - Dispatcher Dashboard
+# Dispatcher Dashboard
 
 This project is a dispatcher workflow prototype for triaging emergency calls, selecting a destination hospital, and dispatching an ambulance using AI-generated outputs from live-feed hospital data and phone call transcripts. The UI includes a case summary, hospital routing tools, a selectable hospital list with map previews, and follow-up screens for ambulance dispatched and emergency call in progress.
 
@@ -8,6 +8,11 @@ This project is a dispatcher workflow prototype for triaging emergency calls, se
 - Map preview tied to the selected hospital with fully supported incorportation of Google Maps API on deployment
 - Dispatch flow with follow-up pages
 - Hamburger menu navigation and responsive layout adjustments
+
+## Future additions
+- Implement AI reasoning using secure live hospital API data
+- Using trained LLM models to provide rapid suggestions on hospital destination, route, and ambulance to significantly reduce ER wait times across multiple nearby hospitals
+- Improve security and validation in both AI and user handling of sensitive data. 
 
 ## Project Structure
 - `frontend/` - React + Vite client application
