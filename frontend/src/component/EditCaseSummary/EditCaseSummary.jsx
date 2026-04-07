@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "../Button/Button.jsx";
 import "./EditCaseSummary.scss";
 
@@ -76,7 +76,7 @@ const EditCaseSummary = ({ onClose, patientData }) => {
             </div>
 
             <div className="edit-summary__form-group">
-              <label>MEDICAL HISTORY</label>
+              <label>BACKGROUND</label>
               <textarea
                 rows="3"
                 name="history"

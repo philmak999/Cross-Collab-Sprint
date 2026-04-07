@@ -61,7 +61,7 @@ function CaseSummary({ isFullWidth = false, onEditClick, onTranscriptClick, pati
 
           <section className="case-summary__section">
             <h3 className="case-summary__heading">
-              {patientData?.name?.toUpperCase() ?? "GABRIEL SMITH"}
+              {patientData?.name ?? "Unidentified"}
             </h3>
             <div className="case-summary__details">
               {profileLines.length > 0

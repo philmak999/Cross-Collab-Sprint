@@ -4,8 +4,10 @@ import alertIcon from "../../assets/icons/Alert.svg";
 
 const toLines = (value) => {
   if (!value) return [];
-  if (Array.isArray(value)) return value.map(String).filter(Boolean);
-  return String(value).split(/\n|,\s*/).map((s) => s.trim()).filter(Boolean);
+  const lines = Array.isArray(value)
+    ? value.map(String).filter(Boolean)
+    : String(value).split(/\n|,\s*/).map((s) => s.trim()).filter(Boolean);
+  return lines.map((s) => s.charAt(0).toUpperCase() + s.slice(1));
 };
 
 function CaseSummarySecond({ isFullWidth = false, onEditClick, onTranscriptClick, patientData }) {
@@ -57,7 +59,7 @@ function CaseSummarySecond({ isFullWidth = false, onEditClick, onTranscriptClick
 
           <section className="case-summary__section">
             <h3 className="case-summary__heading">
-              {patientData?.name?.toUpperCase() ?? "ELENA PARK"}
+              {patientData?.name ?? "Unidentified"}
             </h3>
             <div className="case-summary__details">
               {profileLines.length > 0
@@ -70,7 +72,7 @@ function CaseSummarySecond({ isFullWidth = false, onEditClick, onTranscriptClick
           </section>
 
           <section className="case-summary__section">
-            <h3 className="case-summary__heading">MEDICAL HISTORY</h3>
+            <h3 className="case-summary__heading">Background</h3>
             <div className="case-summary__details">
               {historyLines.length > 0
                 ? historyLines.map((line, i) => <p key={i}>{line}</p>)

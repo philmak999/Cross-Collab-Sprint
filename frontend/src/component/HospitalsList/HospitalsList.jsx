@@ -13,6 +13,7 @@ function HospitalsList({ hospitals = [], selectedIndex = null, onSelect }) {
                         HospitalNameDistance={hospital.HospitalNameDistance}
                         DriveTime={hospital.DriveTime}
                         HospitalInfo={hospital.HospitalInfo}
+                        HospitalDetails={hospital.HospitalDetails}
                         AiRecommend={hospital.AiRecommend}
                         onClick={() => onSelect?.(index)}
                         isSelected={selectedIndex === index}
