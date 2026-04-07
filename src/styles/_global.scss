@@ -1,0 +1,12 @@
+@use "./../styles/variables" as *;
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  font-family: "Hanken Grotesk", sans-serif;
+}
+
+body {
+  font-family: "Hanken Grotesk", sans-serif;
+  background-color: $color-light-grey;
+  margin: 0;
+}

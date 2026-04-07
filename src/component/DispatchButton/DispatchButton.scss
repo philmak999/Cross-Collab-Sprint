@@ -1,0 +1,54 @@
+@use "../../styles/variables" as *;
+@use "../../styles/functions" as *;
+
+.dispatch-button {
+  width: pxToRem(366);
+  background-color: #CC3C42;
+  color: #FFFFFF;
+  border: none;
+  border-radius: pxToRem(16);
+  padding: pxToRem(24) pxToRem(32);
+  font-size: pxToRem(24);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: pxToRem(16);
+  cursor: pointer;
+  align-self: flex-end;
+  box-shadow: 4px 16px 16px 0 rgba(44, 44, 44, 0.1);
+
+  &:disabled {
+    background-color: #BEBEBE;
+    color: #F2F2F2;
+    cursor: not-allowed;
+  }
+}
+
+.dispatch-button__wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: pxToRem(8);
+  margin-left: auto;
+}
+
+.dispatch-button__note {
+  margin: 0;
+  font-size: pxToRem(14);
+  font-weight: 400;
+  font-style: italic;
+  color: #2C2C2C;
+  text-align: right;
+}
+
+.dispatch-button__icon {
+  width: pxToRem(31);
+  height: pxToRem(31);
+  display: block;
+}
+
+.dispatch-button__text {
+  line-height: 1;
+  white-space: nowrap;
+}
