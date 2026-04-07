@@ -14,12 +14,11 @@ import PageFooter from "./component/PageFooter/PageFooter.jsx";
 import Transcript from "./component/Transcript/Transcript.jsx";
 import AmbulanceDispatched from "./component/AmbulanceDispatched/AmbulanceDispatched.jsx";
 import EmergencyCall from "./component/EmergencyCall/EmergencyCall.jsx";
-import Map1 from "./assets/maps/Map-1.jpg";
-import Map2 from "./assets/maps/Map-2.jpg";
-import Map3 from "./assets/maps/Map-3.jpg";
 import "./App.scss";
 
 function App() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isTranscriptOpen, setIsTranscriptOpen] = useState(false);
@@ -52,37 +51,61 @@ function App() {
 
   const hospitals = [
     {
-      HospitalName: "KT Hospital",
+      HospitalName: "Toronto Western Hospital",
       Recommendscore: "90%",
-      HospitalNameDistance: "10",
+      HospitalNameDistance: "2",
       DriveTime: "5",
-      HospitalInfo: "Cardiac catheterization capability",
+      HospitalInfo: "Best cardiac cath lab match",
+      HospitalDetails: "Closest major hospital with full cardiac care and catheterization lab. Best option for suspected cardiac events requiring rapid intervention.",
       AiRecommend: true,
-      Map: Map1,
+      lat: 43.6535,
+      lng: -79.4059,
     },
     {
-      HospitalName: "Smith Hospital",
-      Recommendscore: "15%",
-      HospitalNameDistance: "6",
-      DriveTime: "15",
-      HospitalInfo: "Traffic near Jane and Finch",
-      AiRecommend: false,
-      Map: Map2,
-    },
-    {
-      HospitalName: "York Hospital",
-      Recommendscore: "10%",
-      HospitalNameDistance: "15",
+      HospitalName: "St. Michael's Hospital",
+      Recommendscore: "78%",
+      HospitalNameDistance: "5",
       DriveTime: "12",
-      HospitalInfo: "Distance too far",
+      HospitalInfo: "Cardiac surgery, farther distance",
+      HospitalDetails: "Advanced cardiac surgery unit and Level 1 trauma centre. Slightly farther than Toronto Western but strong cardiac capabilities.",
       AiRecommend: false,
-      Map: Map3,
+      lat: 43.6531,
+      lng: -79.3771,
+    },
+    {
+      HospitalName: "Sunnybrook Health Sciences Centre",
+      Recommendscore: "55%",
+      HospitalNameDistance: "13",
+      DriveTime: "22",
+      HospitalInfo: "Too far for cardiac event",
+      HospitalDetails: "Regional trauma and cardiac centre with strong capabilities, but 13 km away adds significant response time for a time-sensitive cardiac emergency.",
+      AiRecommend: false,
+      lat: 43.7228,
+      lng: -79.3749,
     },
   ];
 
-  const handleMenuToggle = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
+  // Hospitals without lat/lng for sending to backend
+  const baseHospitals = hospitals.map(({ lat: _lat, lng: _lng, ...rest }) => rest);
+
+  // Merge AI-scored hospitals back with static lat/lng coordinates
+  const mergeWithHospitals = (scored) =>
+    hospitals.map((h) => {
+      const match = scored?.find((s) => s.HospitalName === h.HospitalName);
+      return match ? { ...h, ...match } : h;
+    });
+
+  const displayHospitals = location?.state?.scoredHospitals
+    ? mergeWithHospitals(location.state.scoredHospitals)
+    : hospitals;
+
+  // Current patient data for this route (live from call or static fallback)
+  const currentPatientData =
+    location.state?.patientData ??
+    patientsByRoute[location.pathname] ??
+    patientsByRoute["/"];
+
+  const handleMenuToggle = () => setIsMenuOpen((prev) => !prev);
   const handleEditToggle = () => setIsEditOpen((prev) => !prev);
   const handleTranscriptToggle = () => setIsTranscriptOpen((prev) => !prev);
   const handleDispatch = () => navigate("/dispatched");
@@ -92,37 +115,19 @@ function App() {
     : "main-part";
   const selectedHospital = hospitals[selectedHospitalIndex] ?? null;
 
-  const navigate = useNavigate();
-  const location = useLocation();
-
   useEffect(() => {
     if (location.pathname === "/dispatched" || location.pathname === "/emergency") {
       setIsMenuOpen(false);
     }
+    if (location.pathname === "/" && location.state?.patientData) {
+      setSelectedHospitalIndex(null);
+    }
   }, [location.pathname]);
+
   return (
     <>
       <PageHeader onMenuToggle={handleMenuToggle} />
       <HamburgerMenu isOpen={isMenuOpen} />
-      {/* <button
-        onClick={() => navigate("/dispatched")}
-        style={{
-          position: "fixed",
-          bottom: "30px",
-          right: "30px",
-          zIndex: 9999,
-          padding: "16px 24px",
-          backgroundColor: "#E17100",
-          color: "white",
-          border: "none",
-          borderRadius: "12px",
-          cursor: "pointer",
-          fontWeight: "bold",
-          fontSize: "16px",
-        }}
-      >
-        test an emergency button
-      </button> */}
       <Routes>
         <Route
           path="/"
@@ -135,18 +140,23 @@ function App() {
                     isFullWidth={isMenuOpen}
                     onEditClick={handleEditToggle}
                     onTranscriptClick={handleTranscriptToggle}
+                    patientData={location.state?.patientData ?? patientsByRoute["/"]}
+                    triageData={location.state?.triageData ?? null}
                   />
                 </div>
                 <div className="main-layout__right">
                   <HospitalRouting />
                 <div className="main-layout__right-row">
                   <HospitalsList
-                    hospitals={hospitals}
+                    hospitals={displayHospitals}
                     selectedIndex={selectedHospitalIndex}
                     onSelect={setSelectedHospitalIndex}
                   />
                   <div className="main-layout__map-stack">
-                    <Map hospital={selectedHospital} />
+                    <Map
+                      hospital={selectedHospital}
+                      patientLocation={currentPatientData?.location}
+                    />
                     <DispatchButton
                       onClick={handleDispatch}
                       disabled={selectedHospitalIndex === null}
@@ -169,6 +179,7 @@ function App() {
                     isFullWidth={isMenuOpen}
                     onEditClick={handleEditToggle}
                     onTranscriptClick={handleTranscriptToggle}
+                    patientData={location.state?.patientData ?? patientsByRoute["/case-summary-2"]}
                   />
                 </div>
                 <div className="main-layout__right">
@@ -180,7 +191,10 @@ function App() {
                       onSelect={setSelectedHospitalIndex}
                     />
                     <div className="main-layout__map-stack">
-                      <Map hospital={selectedHospital} />
+                      <Map
+                        hospital={selectedHospital}
+                        patientLocation={currentPatientData?.location}
+                      />
                       <DispatchButton
                         onClick={handleDispatch}
                         disabled={selectedHospitalIndex === null}
@@ -193,11 +207,23 @@ function App() {
           }
         />
         <Route path="/dispatched" element={<AmbulanceDispatched />} />
-        <Route path="/emergency" element={<EmergencyCall />} />
+        <Route path="/emergency" element={<EmergencyCall baseHospitals={baseHospitals} />} />
       </Routes>
 
-      {isEditOpen && <EditCaseSummary onClose={handleEditToggle} patientData={patientsByRoute[location.pathname] ?? patientsByRoute["/"]} />}
-      {isTranscriptOpen && <Transcript onClose={handleTranscriptToggle} />}
+      {isEditOpen && (
+        <EditCaseSummary
+          onClose={handleEditToggle}
+          patientData={currentPatientData}
+        />
+      )}
+      {isTranscriptOpen && (
+        <Transcript
+          onClose={handleTranscriptToggle}
+          lines={location.state?.transcriptLines}
+          callId={currentPatientData?.callId}
+          timestamp={currentPatientData?.timestamp}
+        />
+      )}
       <PageFooter isMenuOpen={isMenuOpen} />
     </>
   );

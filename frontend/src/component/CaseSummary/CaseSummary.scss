@@ -114,6 +114,35 @@
     height: 31px;
   }
 
+  &__severity {
+    margin-left: auto;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+
+    &--critical {
+      background-color: #CC3C42;
+      color: #fff;
+    }
+    &--urgent {
+      background-color: #E17100;
+      color: #fff;
+    }
+    &--non-urgent {
+      background-color: #15803d;
+      color: #fff;
+    }
+  }
+
+  &__unit {
+    margin: 8px 0 0;
+    font-size: 13px;
+    color: #8A3216;
+  }
+
   &__critical-lead {
     margin: 12px 0 0;
     font-size: 16px;
