@@ -3,7 +3,7 @@
 
 .card {
     transition: background-color 0.25s ease;
-    box-shadow: 4px 16px 16px 0 rgba(44, 44, 44, 0.1);
+    box-shadow: 2px 4px 8px 0 rgba(44, 44, 44, 0.08);
     &:hover {
         background-color: black;
         cursor: pointer;
@@ -218,10 +218,16 @@
                     font-family: "Hanken Grotesk", sans-serif;
                     font-weight: 700;
                     font-size: 14px;
-                    color: #1D6287;
+                    color: #5894BC;
                     text-decoration: underline;
                     vertical-align: baseline;
-                    &:hover { color: #114a6b; }
+                    white-space: nowrap;
+                    &:hover { color: #1D6287; }
+
+                    [data-theme="dark"] & {
+                        color: #9FCDE5;
+                        &:hover { color: #C8DCE8; }
+                    }
                 }
             }
 
@@ -234,6 +240,38 @@
 
 
 
+
+// --- Alternative tag (2nd highest score among non-recommended cards) ---
+.alternative-flag {
+    margin: 0;
+    box-sizing: border-box;
+    border-radius: pxToRem(16);
+    display: inline-flex;
+    flex-direction: row;
+    background-color: #1D6287;
+    align-items: center;
+
+    p {
+        font-family: "Hanken Grotesk", sans-serif;
+        font-weight: 700;
+        font-size: pxToRem(12);
+        line-height: pxToRem(16);
+        color: #fff;
+        margin: 0;
+        padding: pxToRem(6) pxToRem(16);
+    }
+}
+
+// --- Dark mode icon brightness ---
+// Map pin fill is #5F5F5F (too dark on dark bg) — brighten to a visible mid-grey
+[data-theme="dark"] .map-icon {
+  filter: brightness(2.5) saturate(0.5);
+}
+
+// Alert exclamation fill is #8A3216 (dark red) — lift to a brighter red
+[data-theme="dark"] .alert-icon {
+  filter: brightness(1.8) saturate(1.3);
+}
 
 /* ===== AiRecommend = false ===== */
 .card.normal {
@@ -406,10 +444,16 @@
                     font-family: "Hanken Grotesk", sans-serif;
                     font-weight: 600;
                     font-size: 14px;
-                    color: #1D6287;
+                    color: #5894BC;
                     text-decoration: underline;
                     vertical-align: baseline;
-                    &:hover { color: #114a6b; }
+                    white-space: nowrap;
+                    &:hover { color: #1D6287; }
+
+                    [data-theme="dark"] & {
+                        color: #9FCDE5;
+                        &:hover { color: #C8DCE8; }
+                    }
                 }
             }
 

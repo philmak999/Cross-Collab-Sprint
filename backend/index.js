@@ -1,14 +1,41 @@
+// Entry point for the Express backend server.
+// Depends on: express, cors, dotenv, groq-sdk (all installed via package.json)
+// Consumed by: the React frontend (http://localhost:5173) via fetch calls to /api/* routes
+// Environment: requires GROQ_API_KEY to be set in a .env file at the project root
+
+// --- Dependencies ---
+// express: HTTP server and routing
+// cors: allows the Vite dev server (port 5173) to call this API without cross-origin errors
+// dotenv: loads GROQ_API_KEY and any other secrets from .env into process.env
+// groq-sdk: official Groq client used to call the LLaMA 3.3 70B model for all AI features
 const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const Groq = require("groq-sdk");
 
+// --- Server & Middleware Setup ---
+// Creates the Express app and applies two global middleware:
+//   cors: restricts API access to the local frontend dev server only
+//   express.json: parses incoming JSON request bodies so req.body is available in all routes
 const app = express();
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 
+// --- Groq Client ---
+// Initializes the Groq SDK with the API key from .env.
+// This single client instance is reused by all three AI routes below.
+// All routes use the "llama-3.3-70b-versatile" model with response_format: json_object
+// to guarantee the model returns parseable JSON every time.
 const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
+// --- POST /api/process-call ---
+// Receives a raw 911 call transcript from the frontend and uses the LLM to extract
+// structured patient information from natural language.
+// Request body:  { transcript: string }
+// Response body: { name, location, relationship, profile, history, symptoms }
+// Consumed by: the frontend's transcript processing flow (displayed in the patient info panel)
+// The system prompt enforces strict field names, sentence case, and fallback defaults
+// (e.g. "Unidentified" for unknown names, "URGENT: Missing Location" when no address is given).
 app.post("/api/process-call", async (req, res) => {
     const { transcript } = req.body;
     try {
@@ -25,7 +52,7 @@ Rules:
 - "location": the precise street address or location mentioned by the caller. If an intersection is given, format as "Main St and 1st Ave". If no location is mentioned, set to "URGENT: Missing Location" and change all the text color for the location parameter to red in the frontend.
 - "profile": identify the name of the victim as well as caller (if provided) and separate these into "Victim:" and "Caller:" if applicable. In bullet-point format, describe the victim's age, sex, and ethnicity mentioned by the caller using "Sex:", "Age:", "Ethnicity:", and in a list format underneath the name. If the name is "Unidentified", the operator should inquire about details related to the victim using any available physical details mentioned or implied: approximate age, sex, ethnicity, body size/build, clothing, hair, and any other identifying information an operator would record. Each detail on its own line in a bullet-point format. If no details are mentioned for either case, write "No details mentioned" under the respective section.
 - "history": Past and relevant medical history, conditions, or medications related to the victim. If no history is mentioned, set to "No relevant medical history mentioned".
-- "symptoms": the victim's current symptoms and condition as described by the caller. Each symptom on its own line in bullet-point format. 
+- "symptoms": the victim's current symptoms and condition as described by the caller. Each symptom on its own line in bullet-point format.
 - "relationship": the caller's relationship to the victim (e.g. spouse, bystander, etc). If not mentioned or unknown, set to "Unknown".
 
 All field values must be plain strings. Use newline characters to separate multiple items within a field. Use sentence case: capitalize only the first letter of each sentence and proper nouns. Do not use ALL CAPS.`,
@@ -45,6 +72,13 @@ All field values must be plain strings. Use newline characters to separate multi
     }
 });
 
+// --- POST /api/triage ---
+// Takes the extracted patient data and determines the medical urgency level,
+// the leading symptom driving the decision, and the most appropriate hospital unit.
+// Request body:  { symptoms: string, history: string, profile: string }
+//   - These fields come directly from the /api/process-call response
+// Response body: { severity: "Critical"|"Urgent"|"Non-urgent", leadingSymptom: string, recommendedUnit: string }
+// Consumed by: the frontend triage panel to display severity badge and unit routing
 app.post("/api/triage", async (req, res) => {
     const { symptoms, history, profile } = req.body;
     try {
@@ -75,9 +109,22 @@ Use sentence case: capitalize only the first letter of each sentence and proper 
     }
 });
 
+// --- POST /api/recommend-hospitals ---
+// Scores and ranks a list of nearby hospitals against the current patient's profile,
+// history, and symptoms to recommend the best destination for the ambulance.
+// Request body:  { patient: { profile, history, symptoms }, hospitals: Hospital[] }
+//   - patient fields come from /api/process-call
+//   - hospitals array is fetched by the frontend from the hospital data source,
+//     each entry includes HospitalName, HospitalInfo, HospitalNameDistance, DriveTime
+// Response body: { hospitals: [{ HospitalName, Recommendscore, AiRecommend, HospitalInfo, HospitalDetails }] }
+//   - AiRecommend is true on exactly one hospital (the top pick)
+//   - Consumed by: the hospital list panel and Map component in the frontend
+// The hospital list is pre-formatted into a numbered text block before being sent to the LLM
+// so the model can directly compare proximity and capability in a single prompt.
 app.post("/api/recommend-hospitals", async (req, res) => {
     const { patient, hospitals } = req.body;
     try {
+        // Format the hospitals array into a readable list for the LLM prompt
         const hospitalList = hospitals
             .map((h) => `- ${h.HospitalName}: ${h.HospitalInfo}, ${h.HospitalNameDistance}km away, ${h.DriveTime} min drive`)
             .join("\n");
@@ -111,4 +158,6 @@ Use sentence case: capitalize only the first letter of each sentence and proper 
     }
 });
 
+// --- Server Start ---
+// Starts the HTTP server on port 8080. The frontend proxies all /api/* requests here.
 app.listen(8080, () => console.log("Server running on port 8080"));

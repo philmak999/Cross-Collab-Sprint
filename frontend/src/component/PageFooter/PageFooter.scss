@@ -3,19 +3,18 @@
 .page-footer {
   width: 100%;
   max-width: 100%;
-  padding: pxToRem(72) 0 pxToRem(72);
+  padding: pxToRem(48) 0;
+  margin-top: pxToRem(48);
   text-align: center;
-  margin-top: auto;
-}
 
-.page-footer--menu-open {
-  margin-left: 306px;
-  width: calc(100% - 306px);
-  padding-top: 0;
-}
+  &--menu-open {
+    margin-left: 306px;
+    width: calc(100% - 306px);
+  }
 
-.page-footer__text {
-  margin: 0;
-  font-size: pxToRem(15);
-  color: #5F5F5F;
+  &__text {
+    margin: 0;
+    font-size: pxToRem(15);
+    color: #5F5F5F;
+  }
 }

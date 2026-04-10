@@ -10,6 +10,10 @@
   padding: 16px 32px;
   font-family: "Hanken Grotesk", sans-serif;
 
+  [data-theme="dark"] & {
+    background-color: #0F1923;
+  }
+
   &__header {
     padding-bottom: 12px;
     margin-bottom: 16px;
@@ -20,7 +24,12 @@
     font-weight: 500;
     margin: 0;
     color: #2c2c2c;
+
+    [data-theme="dark"] & {
+      color: #E0E8EC;
+    }
   }
+
   &__content {
     display: flex;
     flex-direction: column;
@@ -46,6 +55,11 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+
+    [data-theme="dark"] & {
+      background: #162433;
+      color: #C8DCE8;
+    }
   }
 
   &__transcript-line {
@@ -83,6 +97,10 @@
     font-size: 0.9rem;
     margin: 0;
     font-style: italic;
+
+    [data-theme="dark"] & {
+      color: #8BAABB;
+    }
   }
 
   &__subtitle {
@@ -93,6 +111,10 @@
     line-height: 1.5;
     white-space: nowrap;
     text-align: center;
+
+    [data-theme="dark"] & {
+      color: #8BAABB;
+    }
   }
 
   &__btn {
@@ -118,12 +140,28 @@
         opacity: 0.4;
         cursor: not-allowed;
       }
+
+      [data-theme="dark"] & {
+        background-color: #1e2d3a;
+        color: #C8DCE8;
+        border-color: #2C4A60;
+
+        &:hover:not(:disabled) {
+          background-color: #253d50;
+        }
+      }
     }
 
     &--active {
       border-color: #1d4ed8;
       background-color: #dbeafe;
       color: #1d4ed8;
+
+      [data-theme="dark"] & {
+        background-color: #1a2f4a;
+        border-color: #5894BC;
+        color: #9FCDE5;
+      }
     }
 
     &--danger {

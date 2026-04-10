@@ -2,7 +2,7 @@ import { useState } from "react";
 import Button from "../Button/Button.jsx";
 import "./EditCaseSummary.scss";
 
-const EditCaseSummary = ({ onClose, patientData }) => {
+const EditCaseSummary = ({ onClose, onSave, patientData }) => {
   const [formData, setFormData] = useState(patientData);
 
   const handleChange = (e) => {
@@ -100,7 +100,7 @@ const EditCaseSummary = ({ onClose, patientData }) => {
 
         <div className="edit-summary__footer">
           <Button text="Cancel" onClick={onClose} variant="cancel" />
-          <Button text="Save" onClick={onClose} variant="save" />
+          <Button text="Save" onClick={() => { onSave(formData); onClose(); }} variant="save" />
         </div>
       </div>
     </div>

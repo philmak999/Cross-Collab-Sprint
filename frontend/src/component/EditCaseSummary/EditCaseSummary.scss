@@ -1,19 +1,6 @@
 @use "../../styles/variables" as *;
 @use "../../styles/global" as *;
 
-.edit-summary__modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
 .edit-summary {
   font-family: "Hanken Grotesk", sans-serif;
   width: 70%;
@@ -21,13 +8,25 @@
   height: auto;
   max-height: 800px;
   overflow-y: auto;
-
   background-color: #ffffff;
   padding: 1.5rem 3rem;
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   text-align: left;
   position: relative;
+
+  &__modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
 
   &__header {
     display: flex;

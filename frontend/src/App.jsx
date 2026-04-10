@@ -23,6 +23,8 @@ function App() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isTranscriptOpen, setIsTranscriptOpen] = useState(false);
   const [selectedHospitalIndex, setSelectedHospitalIndex] = useState(null);
+  const [editedPatientData, setEditedPatientData] = useState(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const patientsByRoute = {
     "/": {
@@ -88,19 +90,22 @@ function App() {
   // Hospitals without lat/lng for sending to backend
   const baseHospitals = hospitals.map(({ lat: _lat, lng: _lng, ...rest }) => rest);
 
-  // Merge AI-scored hospitals back with static lat/lng coordinates
-  const mergeWithHospitals = (scored) =>
-    hospitals.map((h) => {
+  // Merge AI-scored hospitals back with static lat/lng coordinates, then sort by score descending
+  const mergeWithHospitals = (scored) => {
+    const merged = hospitals.map((h) => {
       const match = scored?.find((s) => s.HospitalName === h.HospitalName);
       return match ? { ...h, ...match } : h;
     });
+    return merged.sort((a, b) => (parseFloat(b.Recommendscore) || 0) - (parseFloat(a.Recommendscore) || 0));
+  };
 
   const displayHospitals = location?.state?.scoredHospitals
     ? mergeWithHospitals(location.state.scoredHospitals)
     : hospitals;
 
-  // Current patient data for this route (live from call or static fallback)
+  // Current patient data: edited overrides first, then live call data, then static fallback
   const currentPatientData =
+    editedPatientData ??
     location.state?.patientData ??
     patientsByRoute[location.pathname] ??
     patientsByRoute["/"];
@@ -109,6 +114,8 @@ function App() {
   const handleEditToggle = () => setIsEditOpen((prev) => !prev);
   const handleTranscriptToggle = () => setIsTranscriptOpen((prev) => !prev);
   const handleDispatch = () => navigate("/dispatched");
+  const handleSave = (data) => setEditedPatientData(data);
+  const handleDarkModeToggle = () => setIsDarkMode((prev) => !prev);
 
   const containerClassName = isMenuOpen
     ? "main-part main-part--menu-open"
@@ -122,12 +129,17 @@ function App() {
     if (location.pathname === "/" && location.state?.patientData) {
       setSelectedHospitalIndex(null);
     }
+    setEditedPatientData(null);
   }, [location.pathname]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", isDarkMode ? "dark" : "light");
+  }, [isDarkMode]);
 
   return (
     <>
       <PageHeader onMenuToggle={handleMenuToggle} />
-      <HamburgerMenu isOpen={isMenuOpen} />
+      <HamburgerMenu isOpen={isMenuOpen} isDarkMode={isDarkMode} onDarkModeToggle={handleDarkModeToggle} />
       <Routes>
         <Route
           path="/"
@@ -140,7 +152,7 @@ function App() {
                     isFullWidth={isMenuOpen}
                     onEditClick={handleEditToggle}
                     onTranscriptClick={handleTranscriptToggle}
-                    patientData={location.state?.patientData ?? patientsByRoute["/"]}
+                    patientData={currentPatientData}
                     triageData={location.state?.triageData ?? null}
                   />
                 </div>
@@ -213,6 +225,7 @@ function App() {
       {isEditOpen && (
         <EditCaseSummary
           onClose={handleEditToggle}
+          onSave={handleSave}
           patientData={currentPatientData}
         />
       )}

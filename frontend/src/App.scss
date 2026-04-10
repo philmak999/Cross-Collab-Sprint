@@ -70,3 +70,304 @@
   flex: 1 1 auto;
   width: 100%;
 }
+
+// --- Responsive: fluid between tablet and desktop ---
+// Prevent the right-row (hospitals list + map) from overflowing at mid-widths
+@media (max-width: 1199px) {
+  .main-layout__right-row {
+    flex-wrap: wrap;
+  }
+
+  .main-layout__right-row > * {
+    flex: 1 1 300px;
+  }
+
+  .main-layout__map-stack {
+    width: 100%;
+  }
+}
+
+// --- Responsive: tablet (portrait and landscape) ---
+@media (max-width: 900px) {
+  .main-part {
+    padding: 2rem 1.5rem 0;
+    min-height: unset;
+
+    // Menu is 220px at tablet — keep the push behaviour but at the narrower width
+    &--menu-open {
+      margin-left: 220px;
+      width: calc(100% - 220px);
+    }
+  }
+
+  .page-footer--menu-open {
+    margin-left: 220px;
+    width: calc(100% - 220px);
+  }
+
+  // Stack left and right columns vertically
+  .main-layout {
+    flex-direction: column;
+  }
+
+  .main-layout__left,
+  .main-layout__right {
+    flex: 1 1 auto;
+    width: 100%;
+    min-width: unset;
+  }
+
+  // Stack hospitals list and map vertically at tablet
+  .main-layout__right-row {
+    flex-direction: column;
+  }
+
+  .main-layout__right-row > * {
+    flex: unset;
+    width: 100%;
+  }
+
+  .main-layout__map-stack {
+    width: 100%;
+    align-items: stretch;
+  }
+}
+
+// --- Dark Mode Overrides ---
+// Applied globally when data-theme="dark" is set on <html> by App.jsx
+[data-theme="dark"] {
+  // Page backgrounds
+  body,
+  #root,
+  .main-part {
+    background-color: #0F1923;
+  }
+
+  // Hamburger menu panel
+  .hamburger-menu {
+    background-color: #162433;
+    color: #C8DCE8;
+
+    &__title,
+    &__links span {
+      color: #C8DCE8;
+    }
+
+    &__links span:hover,
+    &__button:hover {
+      color: #9FCDE5;
+    }
+
+    &__settings:hover {
+      color: #9FCDE5;
+    }
+  }
+
+  // Case summary card
+  .case-summary {
+    background-color: #162433;
+    border-color: #2C3E50;
+    color: #C8DCE8;
+
+    &__header {
+      color: #E0E8EC;
+    }
+
+    &__content,
+    &__details,
+    &__critical-list {
+      color: #C8DCE8;
+    }
+
+    &__divider {
+      background-color: #2C3E50;
+    }
+
+    &__info {
+      background-color: #0F1923;
+      border-color: #2C3E50;
+    }
+
+    &__critical {
+      background-color: #2a1418;
+      border-color: #7a3535;
+    }
+
+    &__critical-header {
+      color: #E05A50;
+    }
+
+    &__alert-icon {
+      color: #E05A50;
+    }
+
+    &__unit {
+      color: #E05A50;
+    }
+
+    &__critical-lead {
+      color: #E05A50;
+    }
+
+    &__action {
+      background-color: #162433;
+      border-color: #2C3E50;
+      color: #C8DCE8;
+
+      &:not(&--disabled):hover {
+        background-color: #1D3A4F;
+      }
+
+      &--disabled {
+        background-color: #1a2633;
+        border-color: #2C3E50;
+        color: #3a5060;
+      }
+    }
+  }
+
+  // Hospital cards
+  .card.ai,
+  .card.normal {
+    background-color: #162433;
+    border-color: #2C4A60;
+    color: #C8DCE8;
+
+    &:hover {
+      background-color: #1D3A4F;
+    }
+
+    .hospital-name {
+      color: #E0E8EC;
+    }
+
+    .hospital-info {
+      border-top-color: #2C4A60;
+    }
+
+    .hospital-info__details {
+      color: #8BAABB;
+    }
+
+    .hospital-info__label {
+      color: #C8DCE8;
+    }
+
+    .hospital-info__toggle {
+      color: #9FCDE5;
+      &:hover { color: #C8DCE8; }
+    }
+
+    p {
+      color: #C8DCE8;
+    }
+  }
+
+  // Map panel
+  .map-panel {
+    background-color: #162433;
+    border-color: #2C3E50;
+    color: #C8DCE8;
+
+    &__header,
+    &__subtitle {
+      color: #E0E8EC;
+    }
+
+    &__placeholder-box {
+      background-color: #0F1923;
+    }
+
+    &__placeholder {
+      color: #8BAABB;
+    }
+  }
+
+  // Edit case summary modal
+  .edit-summary {
+    background-color: #162433;
+    color: #C8DCE8;
+
+    &__header {
+      border-bottom-color: #2C3E50;
+    }
+
+    &__footer {
+      border-top-color: #2C3E50;
+    }
+
+    &__close-btn {
+      color: #8BAABB;
+
+      &:hover {
+        color: #E0E8EC;
+      }
+    }
+
+    &__form-group {
+      label {
+        color: #9FCDE5;
+      }
+
+      input,
+      textarea {
+        background-color: #0F1923;
+        border-color: #2C4A60;
+        color: #C8DCE8;
+      }
+    }
+  }
+
+  // Hospital routing banner
+  .hospital__container {
+    background-color: #162433;
+    border-color: #2C4A60;
+  }
+
+  .hospital__title {
+    color: #E0E8EC;
+  }
+
+  // Main page nav — greeting + nav bar
+  .nav-container > p {
+    color: #E0E8EC;
+  }
+
+  .nav-bar {
+    background-color: #162433;
+    border-color: #2C4A60;
+
+    p {
+      color: #8BAABB;
+
+      &:hover {
+        color: #9FCDE5;
+      }
+    }
+
+    p:nth-child(1) {
+      border-right-color: #2C4A60;
+    }
+
+    p:nth-child(3) {
+      border-left-color: #2C4A60;
+    }
+  }
+
+  // Dispatch button
+  .dispatch-btn,
+  .dispatch-button {
+    &:not(:disabled) {
+      background-color: #1D6287;
+    }
+  }
+
+  // Page footer — match body background exactly
+  .page-footer {
+    background-color: #0F1923;
+  }
+
+  .page-footer__text {
+    color: #4a6a7a;
+  }
+}

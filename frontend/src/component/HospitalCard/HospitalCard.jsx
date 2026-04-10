@@ -39,6 +39,7 @@ function HospitalCard({
     HospitalInfo: info,
     HospitalDetails,
     AiRecommend,
+    isAlternative,
     onClick,
     isSelected
 }) {
@@ -77,6 +78,11 @@ function HospitalCard({
                     </>
                 ) : (
                     <>
+                        {isAlternative && (
+                            <div className='alternative-flag'>
+                                <p>ALTERNATIVE</p>
+                            </div>
+                        )}
                         <h3 className='hospital-name'>{HospitalName}</h3>
                         <div className='hospital-detail'>
                             <div className='hospital-score'>

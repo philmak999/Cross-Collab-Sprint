@@ -12,4 +12,8 @@
         flex-direction: column;
         gap: pxToRem(16);
         overflow-y: auto;
+
+        @media (max-width: 900px) {
+            height: pxToRem(420);
+        }
     }
