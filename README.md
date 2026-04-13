@@ -99,6 +99,44 @@ Future updates:
 
 ---
 
+## Agentic Hospital Scoring
+
+Step 3 is implemented as an **agentic loop** rather than a single prompt call. Instead of scoring hospitals using static drive times baked into the frontend, the agent fetches real-time traffic data during inference and grounds its recommendation in actual road conditions at the time of the call.
+
+### How the loop works
+
+```
+Agent receives patient data + hospital list
+        ↓
+Agent calls get_live_drive_time(origin, destination)
+for each hospital in parallel
+        ↓
+Tool executes: Mapbox Geocoding API → coordinates
+               Mapbox Directions API (driving-traffic) → live drive time + distance
+        ↓
+Tool results returned to agent
+        ↓
+Agent reasons over live drive times + clinical fit
+        ↓
+Agent returns final JSON ranking
+```
+
+The agent controls the loop — it decides when it has enough data to produce a final answer. If a tool call fails (e.g. no `MAPBOX_TOKEN` configured), the error is returned to the agent as a tool result and it falls back to scoring using the static reference data already in its context.
+
+### Why this matters over a direct prompt
+
+A hospital that is normally a 5-minute drive may be 14 minutes away during peak traffic. For a time-critical emergency like a cardiac event, that 9-minute gap can change which hospital is the right call. A static prompt using hardcoded drive times cannot detect this — the agentic approach fetches the ground truth and incorporates it into both the match score and the clinical reasoning surfaced to the dispatcher.
+
+### Tool definition
+
+| Tool | Input | Output |
+|---|---|---|
+| `get_live_drive_time` | `origin` (patient address), `destination` (hospital name + city) | `driveTimeMinutes`, `distanceKm` |
+
+The tool geocodes both addresses via the Mapbox Geocoding API, then calls the Mapbox `driving-traffic` profile — the same routing data the live map uses when an ambulance destination is selected.
+
+---
+
 ## GraphQL: Streamlining API calls
 
 Consolidation of AI steps into a **single GraphQL mutation**, ensuring only specific data are called. 
@@ -128,7 +166,9 @@ Operator ends call → single GraphQL mutation fires
   Backend resolver:
   ├─ AI call 1: transcript → structured patient record
   ├─ AI call 2: patient record → severity + triage + unit
-  └─ AI call 3: patient + hospitals → scored + ranked list
+  └─ AI agent loop (step 3):
+       ├─ Tool: get_live_drive_time → Mapbox Directions API (×N hospitals)
+       └─ Agent scores + ranks hospitals using live traffic data
         ↓
 Case Summary panel populated with patient data and triage
 Hospital cards rendered with AI match scores and reasoning
@@ -156,6 +196,7 @@ Map routes ambulance to selected hospital via Directions API
 **`backend/.env`**
 ```
 GROQ_API_KEY=your_groq_api_key
+MAPBOX_TOKEN=your_mapbox_token
 DB_HOST=localhost
 DB_PORT=3306
 DB_USER=root

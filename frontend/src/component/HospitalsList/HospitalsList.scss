@@ -2,8 +2,8 @@
 @use "../../styles/functions" as *;
 
 .hospitals-list {
-  width: 100%;
-  margin: 0 2px;
+  width: calc(100% - 4px);
+  margin: 0 auto;
 
   &__scroll {
     width: 100%;

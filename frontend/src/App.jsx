@@ -111,7 +111,10 @@ function App() {
     patientsByRoute[location.pathname] ??
     patientsByRoute["/"];
 
-  const handleMenuToggle = () => setIsMenuOpen((prev) => !prev);
+  const handleMenuToggle = () => {
+    if (location.pathname === "/emergency") return;
+    setIsMenuOpen((prev) => !prev);
+  };
   const handleEditToggle = () => setIsEditOpen((prev) => !prev);
   const handleTranscriptToggle = () => setIsTranscriptOpen((prev) => !prev);
   const handleDispatch = () => navigate("/dispatched");

@@ -57,13 +57,18 @@ const EmergencyCall = ({ baseHospitals = [] }) => {
   }, [lines]);
 
   const startRecording = (speaker) => {
+    const SpeechRecognition = window["SpeechRecognition"] || window["webkitSpeechRecognition"];
+    if (!SpeechRecognition) {
+      setError("Voice recognition is not supported in this browser. Please use Chrome.");
+      return;
+    }
+
     if (!callStartTimeRef.current) {
       callStartTimeRef.current = new Date();
     }
 
     recognitionRef.current?.stop();
 
-    const SpeechRecognition = window["SpeechRecognition"] || window["webkitSpeechRecognition"];
     const recognition = new SpeechRecognition();
     recognition.continuous = false;
     recognition.interimResults = true;
@@ -86,6 +91,17 @@ const EmergencyCall = ({ baseHospitals = [] }) => {
       });
     };
 
+    recognition.onerror = (event) => {
+      if (event.error === "not-allowed") {
+        setError("Microphone access was denied. Please allow microphone permissions and try again.");
+      } else if (event.error === "network") {
+        setError("Network error: voice recognition requires an internet connection.");
+      } else {
+        setError(`Voice recognition error: ${event.error}`);
+      }
+      setActiveSpeaker(null);
+    };
+
     recognition.onend = () => {
       if (interim) {
         setLines((prev) => {
@@ -99,10 +115,14 @@ const EmergencyCall = ({ baseHospitals = [] }) => {
       setActiveSpeaker(null);
     };
 
-    recognition.start();
-    recognitionRef.current = recognition;
-    setActiveSpeaker(speaker);
-    setError("");
+    try {
+      recognition.start();
+      recognitionRef.current = recognition;
+      setActiveSpeaker(speaker);
+      setError("");
+    } catch (err) {
+      setError(`Could not start voice recognition: ${err.message}`);
+    }
   };
 
   const handleEndCall = async () => {
@@ -165,6 +185,10 @@ const EmergencyCall = ({ baseHospitals = [] }) => {
           The system is recording your call. Once you hang up, it will process
           the case for you.
         </p>
+        <p className="emergency__subtitle emergency__subtitle--demo">
+          For demonstration purposes use Google Chrome for voice recognition. Click "Operator" to simulate the 911 operator speaking, and "Caller" to simulate the caller. Alternate clicking between them to simulate a back-and-forth conversation.
+        </p>
+
 
         {!isProcessing && (
           <div className="emergency__speakers">
@@ -206,14 +230,23 @@ const EmergencyCall = ({ baseHospitals = [] }) => {
           <p className="emergency__error">{error}</p>
         )}
 
-        <button
-          className="emergency__btn emergency__btn--danger"
-          onClick={handleEndCall}
-          disabled={lines.length === 0 || isProcessing}
-        >
-          {isProcessing ? "PROCESSING..." : "END & PROCESS CALL"}
-          {!isProcessing && <img src={sendIcon} alt="" className="emergency__icon" />}
-        </button>
+        <div className="emergency__actions">
+          <button
+            className="emergency__btn emergency__btn--secondary"
+            onClick={() => { recognitionRef.current?.stop(); navigate(-1); }}
+            disabled={isProcessing}
+          >
+            END & RETURN TO PREVIOUS CASE
+          </button>
+          <button
+            className="emergency__btn emergency__btn--danger"
+            onClick={handleEndCall}
+            disabled={lines.length === 0 || isProcessing}
+          >
+            {isProcessing ? "PROCESSING..." : "END & PROCESS CALL"}
+            {!isProcessing && <img src={sendIcon} alt="" className="emergency__icon" />}
+          </button>
+        </div>
       </div>
     </div>
   );

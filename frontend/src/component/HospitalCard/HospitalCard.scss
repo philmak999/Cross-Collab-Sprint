@@ -241,13 +241,38 @@
 
   // --- ≤1199px: layout/structure (font sizes stay at desktop) ---
   @media (max-width: 1199px) {
+    // Flag becomes a full-width top banner; score sits below it
     &__score-row {
-      margin: pxToRem(8) pxToRem(12) 0;
+      margin: 0;
+      flex-direction: column;
+      gap: 0;
+      align-items: stretch;
+    }
+
+    &__flag {
+      display: flex;
+      align-self: stretch;
+      border-radius: pxToRem(12) pxToRem(12) 0 0;
+      justify-content: center;
+      gap: pxToRem(6);
+      padding: pxToRem(8) pxToRem(12);
+
+      p {
+        margin: 0;
+      }
+
+      &--alternative p {
+        margin-left: 0;
+      }
     }
 
     &__flag-icon {
       width: pxToRem(12);
-      margin: pxToRem(4) 0 pxToRem(4) pxToRem(8);
+      margin: 0;
+    }
+
+    &__score-number {
+      margin: pxToRem(8) pxToRem(12) 0;
     }
 
     &__display {
