@@ -100,7 +100,7 @@ Future updates:
 
 ## Agentic Hospital Scoring
 
-Step 3 is implemented as an **agentic loop** rather than a single prompt call. Instead of scoring hospitals using static drive times baked into the frontend, the agent fetches real-time traffic data during inference and grounds its recommendation in actual road conditions at the time of the call.
+Step 3 is implemented as an **agentic loop** rather than a single prompt call. The agent fetches real-time traffic data from the 3rd party maps API and, among other criteria, provides its scoring and recommendation. 
 
 ### How the loop works
 
